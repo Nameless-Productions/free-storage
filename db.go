@@ -8,7 +8,7 @@ import (
 
 type File struct {
 	Name string `json:"name"`
-	MessageIDs []string `json:"messageID"`
+	MessageIDs []string `json:"messageIDs"`
 }
 
 type DB struct {
