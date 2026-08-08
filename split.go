@@ -1,6 +1,6 @@
 package main
 
-var chunkSize = 9 * 1024 * 1024 // 9mb in bytes
+var chunkSize = 10 * 1024 * 1024 // 10mb in bytes
 
 func splitFile(data []byte) [][]byte {
 	if len(data) <= chunkSize {
