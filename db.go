@@ -44,7 +44,8 @@ func addMsgID(fileName, messageID string) {
 		return
 	}
 
-	data, _ := json.Marshal(dbData)
 	dbData.Files[*foundIndex].MessageIDs = append(dbData.Files[*foundIndex].MessageIDs, messageID)
+	
+	data, _ := json.Marshal(dbData)
 	os.WriteFile("db.json", []byte(data), 0644)
 }
