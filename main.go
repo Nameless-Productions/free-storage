@@ -44,7 +44,6 @@ func main() {
 	fileChunks := splitFile(file)
 
 	for i, f := range fileChunks {
-		fmt.Printf("Sending file chunk %d \n", i)
 		session.ChannelMessageSendComplex(os.Getenv("CHANNEL_ID"), &discordgo.MessageSend{
 			Files: []*discordgo.File{
 				{
@@ -53,6 +52,6 @@ func main() {
 				},
 			},
 		})
-		fmt.Printf("Sent file %d \n", i)
+		fmt.Printf("Chunk %d/%d done. %d%% \n", i, len(fileChunks) - 1, i * 100 / (len(fileChunks) - 1))
 	}
 }
