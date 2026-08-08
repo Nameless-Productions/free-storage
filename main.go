@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"log"
 	"os"
@@ -18,7 +19,7 @@ func main() {
 	}
 
 
-	if os.Getenv("TOKEN") == "" {
+	if os.Getenv("TOKEN") == "" || os.Getenv("CHANNEL_ID") == "" {
 		log.Fatal("No TOKEN in env")
 	}
 
@@ -38,5 +39,20 @@ func main() {
 	file, err := os.ReadFile(args[0]);
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	fileChunks := splitFile(file)
+
+	for i, f := range fileChunks {
+		fmt.Printf("Sending file chunk %d \n", i)
+		session.ChannelMessageSendComplex(os.Getenv("CHANNEL_ID"), &discordgo.MessageSend{
+			Files: []*discordgo.File{
+				{
+					Name: "file",
+					Reader: bytes.NewReader(f),
+				},
+			},
+		})
+		fmt.Printf("Sent file %d \n", i)
 	}
 }
