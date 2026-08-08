@@ -53,6 +53,11 @@ func main() {
 			},
 		})
 		addMsgID(args[0], msg.ID)
-		fmt.Printf("Chunk %d/%d done. %d%% \n", i, len(fileChunks) - 1, i * 100 / (len(fileChunks) - 1))
+		total := len(fileChunks)
+		percent := 0
+		if total > 0 {
+			percent = (i + 1) * 100 / total
+		}
+		fmt.Printf("Chunk %d/%d done. %d%% \n", i, len(fileChunks) - 1, percent)
 	}
 }
