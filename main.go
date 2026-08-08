@@ -32,5 +32,11 @@ func main() {
 		log.Fatal(err)
 	}
 
-	fmt.Printf("Bot: %s#%s", user.Username, user.Discriminator)
+	fmt.Printf("Bot: %s#%s \n", user.Username, user.Discriminator)
+
+
+	file, err := os.ReadFile(args[0]);
+	if err != nil {
+		log.Fatal(err)
+	}
 }
