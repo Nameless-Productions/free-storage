@@ -3,7 +3,9 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/bwmarrin/discordgo"
@@ -36,7 +38,38 @@ func main() {
 	fmt.Printf("Bot: %s#%s \n", user.Username, user.Discriminator)
 
 	if existsInDB(args[0]) {
-		
+		msgIDs := getMessageIDs(args[0])
+
+		fullFile := []byte{}
+
+		for _, msgID := range msgIDs {
+			msg, err := session.ChannelMessage(os.Getenv("CHANNEL_ID"), msgID)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if len(msg.Attachments) != 1 {
+				log.Fatal("Msg has more than 1 or 0 attachments")
+			}
+			attachment := msg.Attachments[0]
+
+			resp, err := http.Get(attachment.URL)
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer resp.Body.Close()
+
+			data, err := io.ReadAll(resp.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			fullFile = append(fullFile, data...)
+		}
+
+		os.WriteFile(args[0], fullFile, 0644)
+
+		return
 	}
 
 
