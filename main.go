@@ -35,6 +35,10 @@ func main() {
 
 	fmt.Printf("Bot: %s#%s \n", user.Username, user.Discriminator)
 
+	if existsInDB(args[0]) {
+		
+	}
+
 
 	file, err := os.ReadFile(args[0]);
 	if err != nil {
