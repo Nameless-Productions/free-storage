@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"os"
+	"path"
 )
 
 type File struct {
@@ -15,11 +16,16 @@ type DB struct {
 	Files []File `json:"files"`
 }
 
+func getDBfile() string {
+	p, _ := os.UserConfigDir()
+	return path.Join(p, "free-storage", "db.json")
+}
+
 func addMsgID(fileName, messageID string) {
-	db, err := os.ReadFile("db.json")
+	db, err := os.ReadFile(getDBfile())
 	if err != nil {
 		data, _ := json.Marshal(DB{Files: []File{}})
-		os.WriteFile("db.json", []byte(data), 0644)
+		os.WriteFile(getDBfile(), []byte(data), 0644)
 		db = []byte(data)
 	}
 
@@ -40,21 +46,21 @@ func addMsgID(fileName, messageID string) {
 	if foundIndex == nil {
 		dbData.Files = append(dbData.Files, File{Name: fileName, MessageIDs: []string{messageID}})
 		data, _ := json.Marshal(dbData)
-		os.WriteFile("db.json", []byte(data), 0644)
+		os.WriteFile(getDBfile(), []byte(data), 0644)
 		return
 	}
 
 	dbData.Files[*foundIndex].MessageIDs = append(dbData.Files[*foundIndex].MessageIDs, messageID)
 	
 	data, _ := json.Marshal(dbData)
-	os.WriteFile("db.json", []byte(data), 0644)
+	os.WriteFile(getDBfile(), []byte(data), 0644)
 }
 
 func existsInDB(fileName string) bool {
-	db, err := os.ReadFile("db.json")
+	db, err := os.ReadFile(getDBfile())
 	if err != nil {
 		data, _ := json.Marshal(DB{Files: []File{}})
-		os.WriteFile("db.json", []byte(data), 0644)
+		os.WriteFile(getDBfile(), []byte(data), 0644)
 		db = []byte(data)
 	}
 
@@ -73,10 +79,10 @@ func existsInDB(fileName string) bool {
 }
 
 func getMessageIDs(fileName string) []string {
-	db, err := os.ReadFile("db.json")
+	db, err := os.ReadFile(getDBfile())
 	if err != nil {
 		data, _ := json.Marshal(DB{Files: []File{}})
-		os.WriteFile("db.json", []byte(data), 0644)
+		os.WriteFile(getDBfile(), []byte(data), 0644)
 		db = []byte(data)
 	}
 
