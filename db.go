@@ -106,3 +106,24 @@ func getMessageIDs(fileName string) []string {
 
 	return dbData.Files[*foundIndex].MessageIDs
 }
+
+func getFiles() []string {
+	db, err := os.ReadFile(getDBfile())
+	if err != nil {
+		return []string{}
+	}
+
+	var dbData DB
+	err = json.Unmarshal(db, &dbData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fileNames := []string{}
+
+	for _, f := range dbData.Files {
+		fileNames = append(fileNames, f.Name)
+	}
+
+	return fileNames
+}

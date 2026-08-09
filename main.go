@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
@@ -41,6 +42,14 @@ func main() {
 	}
 
 	fmt.Printf("Bot: %s#%s \n", user.Username, user.Discriminator)
+
+	if args[0] == "list" {
+		fileNames := getFiles()
+
+		fmt.Println("Files:")
+		fmt.Println(strings.Join(fileNames, "\n"))
+		return
+	}
 
 	if existsInDB(args[0]) {
 		msgIDs := getMessageIDs(args[0])
