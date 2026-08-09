@@ -42,7 +42,7 @@ func main() {
 
 		fullFile := []byte{}
 
-		for _, msgID := range msgIDs {
+		for i, msgID := range msgIDs {
 			msg, err := session.ChannelMessage(os.Getenv("CHANNEL_ID"), msgID)
 			if err != nil {
 				log.Fatal(err)
@@ -65,6 +65,8 @@ func main() {
 			}
 
 			fullFile = append(fullFile, data...)
+
+			fmt.Printf("Downloaded %d/%d", i, len(msgID) - 1)
 		}
 
 		os.WriteFile(args[0], fullFile, 0644)
