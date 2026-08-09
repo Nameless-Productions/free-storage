@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"log"
 	"os"
-	"runtime/trace"
 )
 
 type File struct {
