@@ -16,8 +16,8 @@ import (
 func main() {
 	godotenv.Load()
 	usrConfDir, _ := os.UserConfigDir()
-	fmt.Printf("Your config file: %s \n", path.Join(usrConfDir, "config.env"))
-	godotenv.Load(path.Join(usrConfDir, "config.env"))
+	fmt.Printf("Your config file: %s \n", path.Join(usrConfDir, "free-storage", "config.env"))
+	godotenv.Load(path.Join(usrConfDir, "free-storage", "config.env"))
 
 	args := os.Args[1:]
 
