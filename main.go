@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"path"
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/joho/godotenv"
@@ -14,6 +15,10 @@ import (
 
 func main() {
 	godotenv.Load()
+	usrConfDir, _ := os.UserConfigDir()
+	fmt.Printf("Your config file: %s \n", path.Join(usrConfDir, "config.env"))
+	godotenv.Load(path.Join(usrConfDir, "config.env"))
+
 	args := os.Args[1:]
 
 	if len(args) == 0 {
