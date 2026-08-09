@@ -66,7 +66,7 @@ func main() {
 
 			fullFile = append(fullFile, data...)
 
-			fmt.Printf("Downloaded %d/%d", i, len(msgIDs) - 1)
+			fmt.Printf("Downloaded %d/%d \n", i, len(msgIDs) - 1)
 		}
 
 		os.WriteFile(args[0], fullFile, 0644)
