@@ -71,3 +71,32 @@ func existsInDB(fileName string) bool {
 	}
 	return false
 }
+
+func getMessageIDs(fileName string) []string {
+	db, err := os.ReadFile("db.json")
+	if err != nil {
+		data, _ := json.Marshal(DB{Files: []File{}})
+		os.WriteFile("db.json", []byte(data), 0644)
+		db = []byte(data)
+	}
+
+	var dbData DB
+	err = json.Unmarshal(db, &dbData)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	var foundIndex *int
+	for i, f := range dbData.Files {
+		if f.Name == fileName {
+			foundIndex = &i
+			break
+		}
+	}
+
+	if foundIndex == nil {
+		log.Fatal("File not found")
+	}
+
+	return dbData.Files[*foundIndex].MessageIDs
+}
